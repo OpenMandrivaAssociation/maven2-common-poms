@@ -33,7 +33,7 @@
 
 Name:              %{parent}-%{subname}
 Version:           1.0
-Release:           %mkrel 4.2.1
+Release:           %mkrel 4.2.2
 Epoch:             0
 Summary:           Common poms for maven2
 License:           Apache License
@@ -49,7 +49,7 @@ Source2:           %{name}-docs.tar.gz
 BuildRoot:         %{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildArch:         noarch
-BuildRequires:     jpackage-utils >= 0:1.7.2
+BuildRequires:     java-rpmbuild >= 0:1.7.2
 Requires:          jpackage-utils >= 0:1.7.2
 
 %description
