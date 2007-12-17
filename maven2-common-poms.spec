@@ -46,7 +46,6 @@ Source0:           %{name}-src.tar.gz
 Source1:           %{name}-jpp-depmap.xml
 Source2:           %{name}-docs.tar.gz
 
-BuildRoot:         %{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildArch:         noarch
 BuildRequires:     java-rpmbuild >= 0:1.7.2
