@@ -33,7 +33,7 @@
 
 Name:              %{parent}-%{subname}
 Version:           1.0
-Release:           %mkrel 4.2.2
+Release:           %mkrel 5.1.1
 Epoch:             0
 Summary:           Common poms for maven2
 License:           Apache License
