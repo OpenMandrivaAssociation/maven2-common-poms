@@ -38,6 +38,7 @@ Epoch:             0
 Summary:           Common poms for maven2
 License:           Apache License
 Group:             Development/Java
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 URL:               http://jpackage.org/
 
 # No source location for these. They are ascii files generated from maven
