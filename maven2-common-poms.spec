@@ -28,36 +28,38 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-%define parent maven2
-%define subname common-poms
+%global parent maven2
+%global subname common-poms
 
 Name:              %{parent}-%{subname}
 Version:           1.0
-Release:           %mkrel 5.1.8
-Epoch:             0
+Release:           33
 Summary:           Common poms for maven2
-License:           Apache License
+License:           ASL 2.0 and BSD
 Group:             Development/Java
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 URL:               http://jpackage.org/
 
 # No source location for these. They are ascii files generated from maven
 # repositories, and are not in cvs/svn.
-Source0:           %{name}-src.tar.gz
+Source0:           %{name}-src.tar.xz
 Source1:           %{name}-jpp-depmap.xml
 Source2:           %{name}-docs.tar.gz
 
+BuildRoot:         %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:         noarch
-BuildRequires:     java-rpmbuild >= 0:1.7.2
+BuildRequires:     jpackage-utils >= 0:1.7.2
 Requires:          jpackage-utils >= 0:1.7.2
 
 %description
-This package is a collection of poms required by various maven2-dependent 
+This package is a collection of poms required by various maven2-dependent
 packages.
 
 %prep
 %setup -q -n %{name}
+
+# update logkit version to 1.2.2
+sed -i "s|1.0.1|1.2.2|" JPP.excalibur-logkit.pom
 
 tar xzf %{SOURCE2}
 
@@ -83,6 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc APACHE_LICENSE.TXT JSCH_LICENSE.TXT FEDORA.README
-%config(noreplace) %{_mavendepmapdir}/maven2-versionless-depmap.xml
+%{_mavendepmapdir}/maven2-versionless-depmap.xml
 %{_javadir}/maven2
 %{_datadir}/maven2
+
