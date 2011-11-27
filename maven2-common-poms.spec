@@ -33,7 +33,7 @@
 
 Name:              %{parent}-%{subname}
 Version:           1.0
-Release:           33
+Release:           35
 Summary:           Common poms for maven2
 License:           ASL 2.0 and BSD
 Group:             Development/Java
