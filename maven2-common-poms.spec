@@ -66,21 +66,21 @@ tar xzf %{SOURCE2}
 %build
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 # Map
-install -dm 755 $RPM_BUILD_ROOT%{_mavendepmapdir}
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_mavendepmapdir}/maven2-versionless-depmap.xml
+install -dm 755 %{buildroot}%{_mavendepmapdir}
+cp %{SOURCE1} %{buildroot}%{_mavendepmapdir}/maven2-versionless-depmap.xml
 
-install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/maven2
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/default_poms
-install -pm 644 *.pom $RPM_BUILD_ROOT%{_datadir}/maven2/default_poms
+install -d -m 755 %{buildroot}%{_javadir}/maven2
+install -d -m 755 %{buildroot}%{_datadir}/maven2/default_poms
+install -pm 644 *.pom %{buildroot}%{_datadir}/maven2/default_poms
 
-install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/maven2
-ln -s %{_datadir}/maven2/default_poms $RPM_BUILD_ROOT%{_javadir}/maven2
+install -d -m 755 %{buildroot}%{_javadir}/maven2
+ln -s %{_datadir}/maven2/default_poms %{buildroot}%{_javadir}/maven2
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
