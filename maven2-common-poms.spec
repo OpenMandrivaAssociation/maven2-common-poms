@@ -28,64 +28,127 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-%global parent maven2
-%global subname common-poms
+%define parent maven2
+%define subname common-poms
 
 Name:              %{parent}-%{subname}
 Version:           1.0
-Release:           35
+Release:           %mkrel 5.1.9
+Epoch:             0
 Summary:           Common poms for maven2
-License:           ASL 2.0 and BSD
+License:           Apache License
 Group:             Development/Java
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 URL:               http://jpackage.org/
 
 # No source location for these. They are ascii files generated from maven
 # repositories, and are not in cvs/svn.
-Source0:           %{name}-src.tar.xz
+Source0:           %{name}-src.tar.gz
 Source1:           %{name}-jpp-depmap.xml
 Source2:           %{name}-docs.tar.gz
 
-BuildRoot:         %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:         noarch
-BuildRequires:     jpackage-utils >= 0:1.7.2
+BuildRequires:     java-rpmbuild >= 0:1.7.2
 Requires:          jpackage-utils >= 0:1.7.2
 
 %description
-This package is a collection of poms required by various maven2-dependent
+This package is a collection of poms required by various maven2-dependent 
 packages.
 
 %prep
 %setup -q -n %{name}
-
-# update logkit version to 1.2.2
-sed -i "s|1.0.1|1.2.2|" JPP.excalibur-logkit.pom
 
 tar xzf %{SOURCE2}
 
 %build
 
 %install
-rm -rf %{buildroot}
+rm -rf $RPM_BUILD_ROOT
 
 # Map
-install -dm 755 %{buildroot}%{_mavendepmapdir}
-cp %{SOURCE1} %{buildroot}%{_mavendepmapdir}/maven2-versionless-depmap.xml
+install -dm 755 $RPM_BUILD_ROOT%{_mavendepmapdir}
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_mavendepmapdir}/maven2-versionless-depmap.xml
 
-install -d -m 755 %{buildroot}%{_javadir}/maven2
-install -d -m 755 %{buildroot}%{_datadir}/maven2/default_poms
-install -pm 644 *.pom %{buildroot}%{_datadir}/maven2/default_poms
+install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/maven2
+install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/default_poms
+install -pm 644 *.pom $RPM_BUILD_ROOT%{_datadir}/maven2/default_poms
 
-install -d -m 755 %{buildroot}%{_javadir}/maven2
-ln -s %{_datadir}/maven2/default_poms %{buildroot}%{_javadir}/maven2
+install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/maven2
+ln -s %{_datadir}/maven2/default_poms $RPM_BUILD_ROOT%{_javadir}/maven2
 
 %clean
-rm -rf %{buildroot}
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
 %doc APACHE_LICENSE.TXT JSCH_LICENSE.TXT FEDORA.README
-%{_mavendepmapdir}/maven2-versionless-depmap.xml
+%config(noreplace) %{_mavendepmapdir}/maven2-versionless-depmap.xml
 %{_javadir}/maven2
 %{_datadir}/maven2
 
+
+%changelog
+* Wed May 04 2011 Oden Eriksson <oeriksson@mandriva.com> 0:1.0-5.1.8mdv2011.0
++ Revision: 666393
+- mass rebuild
+
+* Fri Dec 03 2010 Oden Eriksson <oeriksson@mandriva.com> 0:1.0-5.1.7mdv2011.0
++ Revision: 606631
+- rebuild
+
+* Wed Mar 17 2010 Oden Eriksson <oeriksson@mandriva.com> 0:1.0-5.1.6mdv2010.1
++ Revision: 523289
+- rebuilt for 2010.1
+
+* Thu Sep 03 2009 Christophe Fergeau <cfergeau@mandriva.com> 0:1.0-5.1.5mdv2010.0
++ Revision: 426078
+- rebuild
+
+* Tue Feb 19 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:1.0-5.1.4mdv2008.1
++ Revision: 172968
+- sync with jpp
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - fix no-buildroot-tag
+
+* Wed Jan 09 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:1.0-5.1.3mdv2008.1
++ Revision: 147306
+- add surefire-root pom
+
+* Wed Jan 09 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:1.0-5.1.2mdv2008.1
++ Revision: 146965
+- bump release
+- fix conflict with bcel
+
+* Tue Jan 08 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:1.0-5.1.1mdv2008.1
++ Revision: 146642
+- new version (fc symc)
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Sun Dec 16 2007 Anssi Hannula <anssi@mandriva.org> 0:1.0-4.2.2mdv2008.1
++ Revision: 120977
+- buildrequire java-rpmbuild, i.e. build with icedtea on x86(_64)
+
+* Sun Jul 01 2007 David Walluck <walluck@mandriva.org> 0:1.0-4.2.1mdv2008.0
++ Revision: 46254
+- Import maven2-common-poms
+
+
+
+* Thu Mar 15 2007 Deepak Bhole <dbhole@redhat.com> 1.0-4jpp.2
+- Updated depmap to make javax-servlet be tomcat-2.4-servlet-api
+
+* Mon Feb 12 2007 Deepak Bhole <dbhole@redhat.com> 0:1.0-4jpp.1
+- Fix spec per Fedora guidelines.
+
+* Fri Oct 13 2006 Deepak Bhole <dbhole@redhat.com> 1.0-3jpp
+- Changed file names to comply with the new maven2 rpm.
+
+* Fri Sep 18 2006 Deepak Bhole <dbhole@redhat.com> - 0:1.0-2jpp
+- Moved common poms from maven2 rpm into this one.
+
+* Tue Jun 13 2006 Deepak Bhole <dbhole@redhat.com> - 0:1.0-1jpp
+- Initial build
