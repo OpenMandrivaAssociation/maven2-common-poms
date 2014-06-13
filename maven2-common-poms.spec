@@ -34,7 +34,7 @@
 Summary:	Common poms for maven2
 Name:		%{parent}-%{subname}
 Version:	1.0
-Release:	10
+Release:	11
 License:	Apache License
 Group:		Development/Java
 Url:		http://jpackage.org/
